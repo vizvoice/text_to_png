@@ -18,14 +18,14 @@ const presets = {
 };
 
 app.post('/generate', (req, res) => {
-  const inputText = req.body.text || 'Hello World';
+  const inputText = req.body.slogan || 'Hello World';
   const product = req.body.product || 'tshirt';
   const color = req.body.color || 'black';
   const maxWordsPerLine = req.body.maxWordsPerLine || 3;
 
   const config = presets[product] || presets.tshirt;
 
-  // Regelsplitsing
+  // Regelsplitsing voor langere slogans
   const words = inputText.split(' ');
   const lines = [];
   for (let i = 0; i < words.length; i += maxWordsPerLine) {
@@ -33,14 +33,13 @@ app.post('/generate', (req, res) => {
   }
   const multilineText = lines.join('\n');
 
-  // Bestandsnaam genereren uit inputText
+  // Bestandsnaam genereren uit slogan
   const rawFilename = inputText
     .toLowerCase()
-    .replace(/\s+/g, '_')       // spaties naar underscores
-    .replace(/[^a-z0-9_]/g, '') // alleen a-z, 0-9 en _
-    .substring(0, 50);          // truncate tot max 50 tekens
-
-  const filename = `${rawFilename || 'output'}.png`;
+    .replace(/\s+/g, '_')       // vervang spaties door underscores
+    .replace(/[^a-z0-9_]/g, '') // verwijder ongewenste tekens
+    .substring(0, 50);          // max 50 tekens
+  const filename = `${rawFilename || 'slogan_output'}.png`;
 
   const buffer = text2png(multilineText, {
     ...config,
