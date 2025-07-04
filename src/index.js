@@ -70,13 +70,23 @@ babybody: {
 };
 
 app.post('/generate', (req, res) => {
-  const text = req.body.text || 'Hello World';
+  const inputText = req.body.text || 'Hello World';
   const product = req.body.product || 'tshirt';
   const color = req.body.color || 'black';
+  const maxWordsPerLine = req.body.maxWordsPerLine || 3;
 
   const config = presets[product] || presets.tshirt;
 
-  const buffer = text2png(text, {
+  // Automatisch regelsplitsing
+  const words = inputText.split(' ');
+  const lines = [];
+  for (let i = 0; i < words.length; i += maxWordsPerLine) {
+    lines.push(words.slice(i, i + maxWordsPerLine).join(' '));
+  }
+
+  const multilineText = lines.join('\n');
+
+  const buffer = text2png(multilineText, {
     ...config,
     color: color,
     backgroundColor: 'transparent',
@@ -85,6 +95,7 @@ app.post('/generate', (req, res) => {
   res.set('Content-Type', 'image/png');
   res.send(buffer);
 });
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
