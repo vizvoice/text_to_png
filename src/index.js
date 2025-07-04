@@ -91,7 +91,7 @@ app.post('/generate', (req, res) => {
     color: color,
     backgroundColor: 'transparent',
     textAlign: 'center',
-    fontPath: './fonts/Poppins-BoldItalic.ttf'
+    fontPath: './src/fonts/Poppins-BoldItalic.ttf'
   });
 
   res.set('Content-Type', 'image/png');
