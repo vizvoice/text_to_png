@@ -87,13 +87,11 @@ app.post('/generate', (req, res) => {
   const multilineText = lines.join('\n');
 
   const buffer = text2png(multilineText, {
-    ...config,
-    color: color,
-    backgroundColor: 'transparent',
-  });
-
-  res.set('Content-Type', 'image/png');
-  res.send(buffer);
+  ...config,
+  color: color,
+  backgroundColor: 'transparent',
+  textAlign: 'center',
+  fontPath: './fonts/Poppins-BoldItalic.ttf'
 });
 
 
