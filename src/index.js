@@ -87,13 +87,14 @@ app.post('/generate', (req, res) => {
   const multilineText = lines.join('\n');
 
   const buffer = text2png(multilineText, {
-  ...config,
-  color: color,
-  backgroundColor: 'transparent',
-  textAlign: 'center',
-  fontPath: './fonts/Poppins-BoldItalic.ttf'
+    ...config,
+    color: color,
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    fontPath: './fonts/Poppins-BoldItalic.ttf'
+  });
+
+  res.set('Content-Type', 'image/png');
+  res.send(buffer);
 });
 
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
