@@ -95,6 +95,7 @@ app.post('/generate', (req, res) => {
   });
 
   res.set('Content-Type', 'image/png');
-  res.send(buffer);
+res.set('Content-Disposition', 'attachment; filename="output.png"');
+res.send(buffer);
 });
 
