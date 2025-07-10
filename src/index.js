@@ -27,6 +27,10 @@ const presets = {
 };
 
 app.post('/generate', (req, res) => {
+  const fs = require('fs');
+  const fontPath = path.join(__dirname, 'fonts', 'Poppins-BoldItalic.ttf');
+  console.log('Font pad:', fontPath);
+  console.log('Font bestaat:', fs.existsSync(fontPath));
   const inputText = req.body.slogan || 'Helloooo World';
   const product = req.body.product || 'tshirt';
   const color = req.body.color || 'black';
