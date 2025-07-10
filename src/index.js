@@ -27,7 +27,7 @@ const presets = {
 };
 
 app.post('/generate', (req, res) => {
-  const inputText = req.body.slogan || 'Hello World';
+  const inputText = req.body.slogan || 'Helloooo World';
   const product = req.body.product || 'tshirt';
   const color = req.body.color || 'black';
   const maxWordsPerLine = req.body.maxWordsPerLine || 3;
