@@ -46,7 +46,7 @@ app.post('/generate', (req, res) => {
     color: color,
     backgroundColor: 'transparent',
     textAlign: 'center',
-    fontPath: path.join(__dirname, 'fonts', 'Poppins-BoldItalic.ttf'),
+   fontPath: path.join(__dirname, 'fonts', 'Poppins-BoldItalic.ttf'),
   });
 
   res.set('Content-Type', 'image/png');
