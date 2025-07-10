@@ -6,12 +6,12 @@ const app = express();
 
 app.use(express.json());
 
-// Pad naar je aangepaste fontbestand
-const customFontPath = path.join(__dirname, 'fonts', 'Poppins-BoldItalic.ttf');
+// Pad naar je aangepaste fontbestand in: /src/fonts/Poppins-BoldItalic.ttf
+const customFontPath = path.join(__dirname, 'src', 'fonts', 'Poppins-BoldItalic.ttf');
 
-// Log even of het font echt bestaat (mag je later weghalen)
-console.log('Font path:', customFontPath);
-console.log('Font exists:', fs.existsSync(customFontPath));
+// Log of het font echt bestaat (tijdelijk)
+console.log('Font pad:', customFontPath);
+console.log('Font bestaat:', fs.existsSync(customFontPath));
 
 // Presets per producttype, met "CustomFont" als naam
 const presets = {
@@ -27,10 +27,10 @@ const presets = {
 };
 
 app.post('/generate', (req, res) => {
-  const fs = require('fs');
-  const fontPath: path.join(__dirname, 'src', 'fonts', 'Poppins-BoldItalic.ttf');
+  const fontPath = path.join(__dirname, 'src', 'fonts', 'Poppins-BoldItalic.ttf');
   console.log('Font pad:', fontPath);
   console.log('Font bestaat:', fs.existsSync(fontPath));
+
   const inputText = req.body.slogan || 'Helloooo World';
   const product = req.body.product || 'tshirt';
   const color = req.body.color || 'black';
@@ -59,7 +59,7 @@ app.post('/generate', (req, res) => {
     color: color,
     backgroundColor: 'transparent',
     textAlign: 'center',
-    fontPath: customFontPath,        // hier koppel je het bestand aan de "CustomFont"
+    fontPath: customFontPath,
   });
 
   res.set('Content-Type', 'image/png');
