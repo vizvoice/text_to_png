@@ -6,10 +6,8 @@ const app = express();
 
 app.use(express.json());
 
-// Pad naar het fontbestand (in dezelfde map als dit bestand)
 const customFontPath = path.join(__dirname, 'poppins.light-italic.ttf');
 
-// Presets per producttype met de juiste font-oproep
 const presets = {
   tshirt:   { font: 'italic light 80px Poppins', padding: 300, lineSpacing: 20, width: 3600, height: 4800 },
   mug:      { font: 'italic light 50px Poppins', padding: 150, lineSpacing: 10, width: 2700, height: 1050 },
@@ -22,16 +20,15 @@ const presets = {
   babybody: { font: 'italic light 50px Poppins', padding: 200, lineSpacing: 15, width: 2800, height: 3600 },
 };
 
-
 app.post('/generate', (req, res) => {
   const inputText = req.body.slogan || 'Helloooo World';
   const product = req.body.product || 'tshirt';
   const color = req.body.color || 'black';
   const maxWordsPerLine = req.body.maxWordsPerLine || 3;
+  const clientFilename = req.body.filename; // <-- hier komt de input uit n8n binnen
 
   const config = presets[product] || presets.tshirt;
 
-  // Regelsplitsing voor langere slogans
   const words = inputText.split(' ');
   const lines = [];
   for (let i = 0; i < words.length; i += maxWordsPerLine) {
@@ -39,13 +36,14 @@ app.post('/generate', (req, res) => {
   }
   const multilineText = lines.join('\n');
 
-  // Bestandsnaam genereren uit slogan
-  const rawFilename = inputText
+  // Bestandsnaam: neem expliciet meegegeven filename, anders genereer er één
+  const fallbackName = inputText
     .toLowerCase()
     .replace(/\s+/g, '_')
     .replace(/[^a-z0-9_]/g, '')
-    .substring(0, 50);
-  const filename = `${rawFilename || 'slogan_output'}.png`;
+    .substring(0, 50) || 'slogan_output';
+
+  const filename = `${clientFilename || fallbackName}.png`;
 
   const buffer = text2png(multilineText, {
     ...config,
